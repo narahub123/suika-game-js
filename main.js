@@ -45,6 +45,7 @@ Runner.run(engine);
 let currentBody = null;
 let currentFruit = null;
 let disableAction = false;
+let interval = null;
 
 function addFruit() {
   const index = Math.floor(Math.random() * 5);
@@ -71,19 +72,27 @@ window.onkeydown = (event) => {
   }
   switch (event.code) {
     case "ArrowLeft":
-      if (currentBody.position.x - currentFruit.radius > 30)
-        Body.setPosition(currentBody, {
-          x: currentBody.position.x - 10,
-          y: currentBody.position.y,
-        });
+      if (interval) return;
+
+      interval = setInterval(() => {
+        if (currentBody.position.x - currentFruit.radius > 30)
+          Body.setPosition(currentBody, {
+            x: currentBody.position.x - 2,
+            y: currentBody.position.y,
+          });
+      }, 5);
 
       break;
     case "ArrowRight":
-      if (currentBody.position.x + currentFruit.radius < 590)
-        Body.setPosition(currentBody, {
-          x: currentBody.position.x + 10,
-          y: currentBody.position.y,
-        });
+      if (interval) return;
+
+      interval = setInterval(() => {
+        if (currentBody.position.x + currentFruit.radius < 590)
+          Body.setPosition(currentBody, {
+            x: currentBody.position.x + 2,
+            y: currentBody.position.y,
+          });
+      }, 5);
       break;
     case "ArrowDown":
     case "Space":
@@ -95,6 +104,15 @@ window.onkeydown = (event) => {
         disableAction = false;
       }, 1000);
       break;
+  }
+};
+
+window.onkeyup = (event) => {
+  switch (event.code) {
+    case "ArrowLeft":
+    case "ArrowRight":
+      clearInterval(interval);
+      interval = null;
   }
 };
 
