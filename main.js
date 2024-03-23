@@ -31,6 +31,7 @@ const ground = Bodies.rectangle(310, 685, 620, 30, {
 });
 
 const topLine = Bodies.rectangle(310, 150, 620, 2, {
+  name: "topLine",
   isStatic: true,
   isSensor: true,
   render: { fillStyle: "#E6B143" },
@@ -124,6 +125,13 @@ Events.on(engine, "collisionStart", (event) => {
       );
 
       World.add(world, newBody);
+    }
+
+    if (
+      !disableAction &&
+      (collision.bodyA.name === "topLine" || collision.bodyB.name === "topLine")
+    ) {
+      alert("Game over");
     }
   });
 });
