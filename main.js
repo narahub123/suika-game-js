@@ -1,4 +1,4 @@
-import { Engine, Render, Runner, World, Bodies } from "matter-js";
+import { Engine, Render, Runner, World, Bodies, Body } from "matter-js";
 import { FRUITS_BASE as FRUITS } from "./fruits";
 
 const engine = Engine.create();
@@ -43,6 +43,7 @@ Runner.run(engine);
 
 let currentBody = null;
 let currentFruit = null;
+let disableAction = false;
 
 function addFruit() {
   const index = Math.floor(Math.random() * 5);
@@ -62,5 +63,35 @@ function addFruit() {
 
   World.add(world, body);
 }
+
+window.onkeydown = (event) => {
+  if (disableAction) {
+    return;
+  }
+  switch (event.code) {
+    case "ArrowLeft":
+      Body.setPosition(currentBody, {
+        x: currentBody.position.x - 10,
+        y: currentBody.position.y,
+      });
+      break;
+    case "ArrowRight":
+      Body.setPosition(currentBody, {
+        x: currentBody.position.x + 10,
+        y: currentBody.position.y,
+      });
+      break;
+    case "ArrowDown":
+    case "Space":
+      currentBody.isSleeping = false; // drop
+      disableAction = true;
+
+      setTimeout(() => {
+        addFruit(); // create a fruit after drop current fruit
+        disableAction = false;
+      }, 1000);
+      break;
+  }
+};
 
 addFruit();
