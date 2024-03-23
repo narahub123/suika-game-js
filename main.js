@@ -70,16 +70,19 @@ window.onkeydown = (event) => {
   }
   switch (event.code) {
     case "ArrowLeft":
-      Body.setPosition(currentBody, {
-        x: currentBody.position.x - 10,
-        y: currentBody.position.y,
-      });
+      if (currentBody.position.x - currentFruit.radius > 30)
+        Body.setPosition(currentBody, {
+          x: currentBody.position.x - 10,
+          y: currentBody.position.y,
+        });
+
       break;
     case "ArrowRight":
-      Body.setPosition(currentBody, {
-        x: currentBody.position.x + 10,
-        y: currentBody.position.y,
-      });
+      if (currentBody.position.x + currentFruit.radius < 590)
+        Body.setPosition(currentBody, {
+          x: currentBody.position.x + 10,
+          y: currentBody.position.y,
+        });
       break;
     case "ArrowDown":
     case "Space":
